@@ -7,8 +7,14 @@ function RenderCard({item}) {
     
         return(     
                 <Card >
-                <CardImg width="100%" src={item?.image} alt={item?.name}  />
-                <CardBody >
+                <CardImg width="100%"  src={item?.image} alt={item?.name}  style={{
+                    height: 270,
+                    
+                    
+      }}/>
+                <CardBody style={{
+                    height:300,
+                }}>
                     <CardTitle>{item?.name}</CardTitle>
                     {item?.designation ? <CardSubtitle>{item?.designation}</CardSubtitle> : null }
                     <CardText>{item?.description}</CardText>
