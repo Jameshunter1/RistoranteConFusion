@@ -1,4 +1,3 @@
-
 import { Card, CardImg, CardText, CardBody, CardTitle, Breadcrumb, BreadcrumbItem } from "reactstrap";
 import { Link } from "react-router-dom"
 
@@ -15,7 +14,9 @@ function RenderDish({ dish }) {
         </Card>
       );
     else {
-      return <div></div>;
+      return<div>
+
+      </div>;
     }
   }
 

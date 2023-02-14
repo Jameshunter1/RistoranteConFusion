@@ -10,7 +10,6 @@ function RenderCard({item}) {
                 <CardImg width="100%"  src={item?.image} alt={item?.name}  style={{
                     height: 270,
                     
-                    
       }}/>
                 <CardBody style={{
                     height:300,

@@ -1,12 +1,10 @@
-import {createStore} from 'redux';
-import { Reducer, initialState } from './reducer'
+import { configureStore } from '@reduxjs/toolkit';
+import rootReducer from './reducer'
 
 export const ConfigureStore = () => {
-    const store = createStore(
-        Reducer,
-        initialState
-       
-    );
+    const store = configureStore({
+        reducer: rootReducer
+    });
 
     return store;
 }

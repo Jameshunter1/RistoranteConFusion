@@ -4,7 +4,7 @@ import Header from './HeaderComponent';
 import Footer from './FooterComponents';
 import Home from './HomeComponent'; 
 import Contact from './ContactComponent';
-import {Switch, Route, withRouter} from 'react-router-dom';
+import {Switch, Route, withRouter, Redirect} from 'react-router-dom';
 import DishDetail from "./DishdetailComponent"
 import About from './AboutComponent';
 import {connect}from "react-redux"
@@ -40,15 +40,31 @@ class Main extends Component {
 
     return (
       <div>
-        <Header />   
-        <Switch>
-          <Route path='/home' element={HomePage} />
-          <Route path='/aboutus' element={<About leaders={this.props.leaders} />} />
-          <Route exact path='/menu' element={< Menu dishes={this.props.dishes} />} />
-          <Route path="/menu/:dishId" element={DishWithId}/>
-          <Route path='/contactus' element={<Contact />} />
-          
-        </Switch> 
+        <Header /> 
+        <div>
+      <Switch>
+        <Route path="/home" component={HomePage} />
+            <Route
+              exact
+              path="/menu"
+              component={() => <Menu dishes={this.props.dishes} />}
+            />
+            <Route path="/menu/:dishId" component={DishWithId} />
+            <Route
+              exact
+              path="/contactus"
+              component={() => (
+                <Contact resetFeedbackForm={this.props.resetFeedbackForm} />
+              )}
+            />
+            <Route
+              exact
+              path="/aboutus"
+              component={() => <About leaders={this.props.leaders} />}
+            />
+            <Redirect to="/home" />
+</Switch> 
+          </div>
         <Footer/>
       </div>
     );
