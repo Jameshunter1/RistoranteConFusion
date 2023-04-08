@@ -11,6 +11,7 @@ import { Link } from 'react-router-dom';
 import DishDetail from './DishdetailComponent';
 import { Loading } from './LoadingComponent';
 
+// RenderMenuItem Component - This component is used to render the menu items
 function RenderMenuItem({ dish }) {
  return (
   <Card>
@@ -23,13 +24,13 @@ function RenderMenuItem({ dish }) {
   </Card>
  );
 }
-
+// Menu Component - This component is used to render the menu items and the dish details component
 const Menu = (props) => {
  const menu = props.dishes.dishes.map((dish) => {
   <div key={dish.id} className="col-12 col-md-5 m-1">
    <RenderMenuItem dish={dish} />
-  </div>;
-
+     </div>;
+     
   if (props.dishes.isLoading) return <Loading />;
   else if (props.dishes.errMess) return <h4>{props.dishes.errMess}</h4>;
   else

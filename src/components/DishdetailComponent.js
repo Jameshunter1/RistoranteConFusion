@@ -3,6 +3,8 @@ import { Card, CardImg, CardText, CardBody, CardTitle, Breadcrumb, BreadcrumbIte
 import { Link } from 'react-router-dom';
 import { Loading } from './LoadingComponent';
 
+
+//Comment Form Modal Component  -  This component is used to render the comment form modal 
 class CommentFormModal extends Component {
  constructor(props) {
   super(props);
@@ -15,7 +17,7 @@ class CommentFormModal extends Component {
    nameError: null,
    commentError: null,
   };
-
+// Bind methods to this component instance so that they can be used in render method
   this.toggleModal = this.toggleModal.bind(this);
   this.handleSubmit = this.handleSubmit.bind(this);
   this.validateRating = this.validateRating.bind(this);
@@ -25,7 +27,7 @@ class CommentFormModal extends Component {
   this.handleNameChange = this.handleNameChange.bind(this);
   this.handleCommentChange = this.handleCommentChange.bind(this);
  }
-
+// Method to toggle modal state between open and close   
  toggleModal() {
   this.setState({
    isModalOpen: !this.state.isModalOpen,
@@ -37,7 +39,8 @@ class CommentFormModal extends Component {
    commentError: null,
   });
  }
-
+// Method to validate rating value  
+  
  validateRating() {
   if (this.state.rating < 1 || this.state.rating > 5) {
    this.setState({ ratingError: 'Rating must be between 1 and 5' });
@@ -45,7 +48,7 @@ class CommentFormModal extends Component {
    this.setState({ ratingError: null });
   }
  }
-
+//  Method to validate name value 
  validateName() {
   if (this.state.name.length < 3) {
    this.setState({ nameError: 'Name must be at least 3 characters long' });
@@ -53,7 +56,7 @@ class CommentFormModal extends Component {
    this.setState({ nameError: null });
   }
  }
-
+// Method to validate comment value
  validateComment() {
   if (this.state.comment.length < 10) {
    this.setState({
@@ -64,18 +67,21 @@ class CommentFormModal extends Component {
   }
  }
 
+  // Method to handle change in rating value
  handleRatingChange(event) {
   this.setState({ rating: event.target.value }, this.validateRating);
  }
-
+// Method to handle change in name value
  handleNameChange(event) {
   this.setState({ name: event.target.value }, this.validateName);
  }
 
+  // Method to handle change in comment value
  handleCommentChange(event) {
   this.setState({ comment: event.target.value }, this.validateComment);
  }
 
+  // Method to handle submit
  handleSubmit(event) {
   event.preventDefault();
   this.props.addComment(
@@ -83,15 +89,18 @@ class CommentFormModal extends Component {
    this.state.rating,
    this.state.name,
    this.state.comment,
-  );
+   );
+  
   this.validateRating();
   this.validateName();
   this.validateComment();
- }
-
+  }
+  
+// Method to render the component
  render() {
   return (
-   <>
+    <>
+    
     <Button outline onClick={this.toggleModal}>
      <span className="fa fa-pencil fa-lg"></span> Submit Comment
     </Button>
@@ -164,6 +173,7 @@ class CommentFormModal extends Component {
   );
  }
 }
+// RenderDish component
 
 function RenderDish({ dish }) {
  if (dish != null)
@@ -180,6 +190,7 @@ function RenderDish({ dish }) {
   return <div></div>;
  }
 }
+// RenderComments component
 
 function RenderComments({ comments, addComment, dishId }) {
  const comment = comments.map((comment) => {
@@ -207,6 +218,7 @@ function RenderComments({ comments, addComment, dishId }) {
  );
 }
 
+// DishDetail component
 const DishDetail = (props) => {
  if (props.dish == null) {
   return (
