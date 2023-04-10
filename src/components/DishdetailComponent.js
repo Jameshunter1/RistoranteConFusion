@@ -2,193 +2,192 @@ import React, { Component } from 'react';
 import { Card, CardImg, CardText, CardBody, CardTitle, Breadcrumb, BreadcrumbItem, Button, Modal, ModalHeader, ModalBody, Label, Row, Col } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { Loading } from './LoadingComponent';
+import { baseUrl } from '../shared/baseUrl';
 
-
-//Comment Form Modal Component  -  This component is used to render the comment form modal 
+//Comment Form Modal Component  -  This component is used to render the comment form modal
 class CommentFormModal extends Component {
- constructor(props) {
-  super(props);
-  this.state = {
-   isModalOpen: false,
-   rating: 5,
-   name: '',
-   comment: '',
-   ratingError: null,
-   nameError: null,
-   commentError: null,
-  };
-// Bind methods to this component instance so that they can be used in render method
-  this.toggleModal = this.toggleModal.bind(this);
-  this.handleSubmit = this.handleSubmit.bind(this);
-  this.validateRating = this.validateRating.bind(this);
-  this.validateName = this.validateName.bind(this);
-  this.validateComment = this.validateComment.bind(this);
-  this.handleRatingChange = this.handleRatingChange.bind(this);
-  this.handleNameChange = this.handleNameChange.bind(this);
-  this.handleCommentChange = this.handleCommentChange.bind(this);
- }
-// Method to toggle modal state between open and close   
- toggleModal() {
-  this.setState({
-   isModalOpen: !this.state.isModalOpen,
-   rating: 5,
-   name: '',
-   comment: '',
-   ratingError: null,
-   nameError: null,
-   commentError: null,
-  });
- }
-// Method to validate rating value  
-  
- validateRating() {
-  if (this.state.rating < 1 || this.state.rating > 5) {
-   this.setState({ ratingError: 'Rating must be between 1 and 5' });
-  } else {
-   this.setState({ ratingError: null });
+  constructor(props) {
+    super(props);
+    this.state = {
+      isModalOpen: false,
+      rating: 5,
+      name: '',
+      comment: '',
+      ratingError: null,
+      nameError: null,
+      commentError: null,
+    };
+    // Bind methods to this component instance so that they can be used in render method
+    this.toggleModal = this.toggleModal.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.validateRating = this.validateRating.bind(this);
+    this.validateName = this.validateName.bind(this);
+    this.validateComment = this.validateComment.bind(this);
+    this.handleRatingChange = this.handleRatingChange.bind(this);
+    this.handleNameChange = this.handleNameChange.bind(this);
+    this.handleCommentChange = this.handleCommentChange.bind(this);
   }
- }
-//  Method to validate name value 
- validateName() {
-  if (this.state.name.length < 3) {
-   this.setState({ nameError: 'Name must be at least 3 characters long' });
-  } else {
-   this.setState({ nameError: null });
+  // Method to toggle modal state between open and close
+  toggleModal() {
+    this.setState({
+      isModalOpen: !this.state.isModalOpen,
+      rating: 5,
+      name: '',
+      comment: '',
+      ratingError: null,
+      nameError: null,
+      commentError: null,
+    });
   }
- }
-// Method to validate comment value
- validateComment() {
-  if (this.state.comment.length < 10) {
-   this.setState({
-    commentError: 'Comment must be at least 10 characters long',
-   });
-  } else {
-   this.setState({ commentError: null });
+  // Method to validate rating value
+
+  validateRating() {
+    if (this.state.rating < 1 || this.state.rating > 5) {
+      this.setState({ ratingError: 'Rating must be between 1 and 5' });
+    } else {
+      this.setState({ ratingError: null });
+    }
   }
- }
+  //  Method to validate name value
+  validateName() {
+    if (this.state.name.length < 3) {
+      this.setState({ nameError: 'Name must be at least 3 characters long' });
+    } else {
+      this.setState({ nameError: null });
+    }
+  }
+  // Method to validate comment value
+  validateComment() {
+    if (this.state.comment.length < 10) {
+      this.setState({
+        commentError: 'Comment must be at least 10 characters long',
+      });
+    } else {
+      this.setState({ commentError: null });
+    }
+  }
 
   // Method to handle change in rating value
- handleRatingChange(event) {
-  this.setState({ rating: event.target.value }, this.validateRating);
- }
-// Method to handle change in name value
- handleNameChange(event) {
-  this.setState({ name: event.target.value }, this.validateName);
- }
+  handleRatingChange(event) {
+    this.setState({ rating: event.target.value }, this.validateRating);
+  }
+  // Method to handle change in name value
+  handleNameChange(event) {
+    this.setState({ name: event.target.value }, this.validateName);
+  }
 
   // Method to handle change in comment value
- handleCommentChange(event) {
-  this.setState({ comment: event.target.value }, this.validateComment);
- }
+  handleCommentChange(event) {
+    this.setState({ comment: event.target.value }, this.validateComment);
+  }
 
   // Method to handle submit
- handleSubmit(event) {
-  event.preventDefault();
-  this.props.addComment(
-   this.props.dishId,
-   this.state.rating,
-   this.state.name,
-   this.state.comment,
-   );
-  
-  this.validateRating();
-  this.validateName();
-  this.validateComment();
+  handleSubmit(event) {
+    event.preventDefault();
+    this.props.addComment(
+      this.props.dishId,
+      this.state.rating,
+      this.state.name,
+      this.state.comment,
+    );
+
+    this.validateRating();
+    this.validateName();
+    this.validateComment();
   }
-  
-// Method to render the component
- render() {
-  return (
-    <>
-    
-    <Button outline onClick={this.toggleModal}>
-     <span className="fa fa-pencil fa-lg"></span> Submit Comment
-    </Button>
-    <Modal isOpen={this.state.isModalOpen} toggle={this.toggleModal}>
-     <ModalHeader toggle={this.toggleModal}>Submit Comment</ModalHeader>
-     <ModalBody>
-      <form onSubmit={this.handleSubmit}>
-       <Row className="form-group">
-        <Label htmlFor="rating" md={2}>
-         Rating
-        </Label>
-        <Col md={10}>
-         <input
-          type="number"
-          id="rating"
-          name="rating"
-          min="1"
-          max="5"
-          defaultValue="5"
-          ref={(input) => (this.rating = input)}
-         />
-        </Col>
-       </Row>
-       <Row className="form-group">
-        <Label htmlFor="name" md={2}>
-         Your Name
-        </Label>
-        <Col md={10}>
-         <input
-          type="text"
-          id="name"
-          name="name"
-          placeholder="Your Name"
-          value={this.state.name}
-          onChange={this.handleNameChange}
-         />
-         {this.state.nameError && (
-          <p className="text-danger">{this.state.nameError}</p>
-         )}
-        </Col>
-       </Row>
-       <Row className="form-group">
-        <Label htmlFor="comment" md={2}>
-         Comment
-        </Label>
-        <Col md={10}>
-         <textarea
-          id="comment"
-          name="comment"
-          rows="6"
-          value={this.state.comment}
-          onChange={this.handleCommentChange}
-         ></textarea>
-         {this.state.commentError && (
-          <p className="text-danger">{this.state.commentError}</p>
-         )}
-        </Col>
-       </Row>
-       <Row className="form-group">
-        <Col md={{ size: 10, offset: 2 }}>
-         <Button type="submit" color="primary">
-          Submit
-         </Button>
-        </Col>
-       </Row>
-      </form>
-     </ModalBody>
-    </Modal>
-   </>
-  );
- }
+
+  // Method to render the component
+  render() {
+    return (
+      <>
+        <Button outline onClick={this.toggleModal}>
+          <span className="fa fa-pencil fa-lg"></span> Submit Comment
+        </Button>
+        <Modal isOpen={this.state.isModalOpen} toggle={this.toggleModal}>
+          <ModalHeader toggle={this.toggleModal}>Submit Comment</ModalHeader>
+          <ModalBody>
+            <form onSubmit={this.handleSubmit}>
+              <Row className="form-group">
+                <Label htmlFor="rating" md={2}>
+                  Rating
+                </Label>
+                <Col md={10}>
+                  <input
+                    type="number"
+                    id="rating"
+                    name="rating"
+                    min="1"
+                    max="5"
+                    defaultValue="5"
+                    ref={input => (this.rating = input)}
+                  />
+                </Col>
+              </Row>
+              <Row className="form-group">
+                <Label htmlFor="name" md={2}>
+                  Your Name
+                </Label>
+                <Col md={10}>
+                  <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    placeholder="Your Name"
+                    value={this.state.name}
+                    onChange={this.handleNameChange}
+                  />
+                  {this.state.nameError && (
+                    <p className="text-danger">{this.state.nameError}</p>
+                  )}
+                </Col>
+              </Row>
+              <Row className="form-group">
+                <Label htmlFor="comment" md={2}>
+                  Comment
+                </Label>
+                <Col md={10}>
+                  <textarea
+                    id="comment"
+                    name="comment"
+                    rows="6"
+                    value={this.state.comment}
+                    onChange={this.handleCommentChange}
+                  ></textarea>
+                  {this.state.commentError && (
+                    <p className="text-danger">{this.state.commentError}</p>
+                  )}
+                </Col>
+              </Row>
+              <Row className="form-group">
+                <Col md={{ size: 10, offset: 2 }}>
+                  <Button type="submit" color="primary">
+                    Submit
+                  </Button>
+                </Col>
+              </Row>
+            </form>
+          </ModalBody>
+        </Modal>
+      </>
+    );
+  }
 }
 // RenderDish component
 
 function RenderDish({ dish }) {
- if (dish != null)
-  return (
-   <Card>
-    <CardImg top src={dish.image} alt={dish.name} />
-    <CardBody>
-     <CardTitle>{dish.name}</CardTitle>
-     <CardText>{dish.description}</CardText>
-    </CardBody>
-   </Card>
-  );
- else {
-  return <div></div>;
- }
+  if (dish != null)
+    return (
+      <Card>
+        <CardImg top src={baseUrl + dish.image} alt={dish.name} />
+        <CardBody>
+          <CardTitle>{dish.name}</CardTitle>
+          <CardText>{dish.description}</CardText>
+        </CardBody>
+      </Card>
+    );
+  else {
+    return <div></div>;
+  }
 }
 // RenderComments component
 
